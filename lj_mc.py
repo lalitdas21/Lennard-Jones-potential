@@ -2,7 +2,8 @@ from dataclasses import dataclass
 import numpy as np
 
 def minimum_image(displacement: np.ndarray, box_length: float) -> np.ndarray:
-    """Map displacement components to the nearest periodic image. """
+    """Map displacement components to the nearest periodic image. Follows the formula
+       displacement - length * round(displacement / length) """
     return displacement - box_length * np.rint(displacement / box_length)
 
 def lj_potential(r_squared: float) -> float:
@@ -10,7 +11,7 @@ def lj_potential(r_squared: float) -> float:
     r_squared = np.asarray(r_squared, dtype=float)
     if np.any(r_squared <= 0.0):
         raise ValueError("Particle separation must be positive.")
-
+    
     inverse_r6 = (1.0 / r_squared) ** 3
     return 4.0 * (inverse_r6**2 - inverse_r6)
 
